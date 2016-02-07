@@ -18,6 +18,9 @@ class Snap extends Game
      */
     private $lastCard = null;
 
+    /**
+     * @var array holding the current stack of cards
+     */
     private $stack = [];
 
     /**
@@ -61,6 +64,11 @@ class Snap extends Game
         $this->addPlayers( explode(',',$players) );
     }
 
+    /**
+     * The main logic for the game
+     *
+     * TODO: Split into logical functions
+     */
     private function play()
     {
         // Until the game is over...
@@ -79,22 +87,31 @@ class Snap extends Game
                     Talk::say($player->getName() . ": " . $card->card);
                 }
 
-                if (!empty($this->lastCard) and $hand[0]->rank == $this->lastCard->rank) {
-                    $player->dealCards($this->stack);
+                // If there's a last card and the player's hand matches it...
+                if (!empty($this->lastCard) and end($hand)->rank == $this->lastCard->rank) {
+                    // Give the player the stack and clear the last card
+                    $player->takeCards($this->stack);
                     $this->stack = $this->lastCard = [];
+                    // Tell the player their a loser!
                     Talk::say("Snap! " . $player->getName() . " takes the stack!");
                     $this->playerSummary();
                 }
 
+                // If a player runs out of cards they win!
                 if ($player->cardCount() == 0) {
                     Talk::say("Winner! " . $player->getName() . " is out of cards!");
-                    break 2;
+                    $this->finished = true;
+                    break;
                 }
             }
+            // Make the game readable by having a little interval!
             sleep($this->interval);
         }
     }
 
+    /**
+     * Echos out a summary of current player card counts
+     */
     private function playerSummary()
     {
         foreach($this->players as $player)

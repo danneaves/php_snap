@@ -8,11 +8,24 @@
  */
 class Talk
 {
+    /**
+     * Talk constructor.
+     *
+     * Does nothing for now but here just in case
+     */
     public function __construct()
     {
 
     }
 
+    /**
+     * Statically accessible function to ask a question
+     * and return the user's input
+     *
+     * @param $question
+     * @param string $type to cast response to
+     * @return string
+     */
     public static function ask($question,$type = 'string')
     {
         // Ask the question
@@ -27,6 +40,12 @@ class Talk
         return $response;
     }
 
+    /**
+     * Static function to print out a statement
+     *
+     * @param $statement
+     * @param int $linefeed
+     */
     public static function say($statement,$linefeed = 1)
     {
         // Say stuff, echoing the end of line feed

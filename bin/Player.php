@@ -50,16 +50,32 @@ class Player
         }
     }
 
-    public function dealCards($cards)
+    /**
+     * Adds the given cards to the players stash
+     *
+     * @param $cards
+     */
+    public function takeCards($cards)
     {
         $this->cards = array_merge($this->cards,$cards);
     }
 
-    public function dealCard($card)
+    /**
+     * Add a single card
+     *
+     * @param $card
+     */
+    public function takeCard($card)
     {
         $this->cards[] = $card;
     }
 
+    /**
+     * Plays a hand of the given size
+     *
+     * @param int $size
+     * @return array
+     */
     public function playHand($size = 1)
     {
         // Capture the last hand
@@ -75,16 +91,31 @@ class Player
         return $this->currentHand;
     }
 
+    /**
+     * Gets the last played hand
+     *
+     * @return array
+     */
     public function getHand()
     {
         return $this->currentHand;
     }
 
+    /**
+     * Gets the player name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Gets the player's current card count
+     *
+     * @return int
+     */
     public function cardCount()
     {
         return count($this->cards);

@@ -19,12 +19,12 @@ class Deck
     private $dealtCards = [];
 
     /**
-     * @var array holding the last hand dealt
+     * @var object holding the last card dealt
      */
-    private $lastHand = [];
+    private $lastCard;
 
     /**
-     * the abbreviated list of card suits
+     * the list of card suits
      */
     public static $suits = ['Clubs','Diamonds','Hearts','Spades'];
 
@@ -90,32 +90,48 @@ class Deck
     }
 
     /**
-     * Deals a new hand off the top of the deck
+     * Deals a card off the top of the deck
      *
-     * @param $size
-     * @return array
+     * @return object|bool
      */
-    public function deal($size = 1)
+    public function deal()
     {
-        // Clear the last hand and set a shorter var for use in
+        // Return false if we've run out of cards
+        if(!$this->undealtCount()) return false;
+
+        // Clear the last card and set a shorter var for use in
         // the function
-        $hand =& $this->lastHand;
-        $hand = [];
+        $card =& $this->lastCard;
+        $card = (object) [];
 
         // Shift off the beginning!
-        for( $i = 0; $i < $size; $i++)
-        {
-            $hand[] = $this->dealtCards[] = array_shift($this->undealtCards);
-        }
+        $card = $this->dealtCards[] = array_shift($this->undealtCards);
 
-        return $hand;
+        return $card;
     }
 
-    public function dealt()
+    /**
+     * Resets the deck and shuffles the pack
+     *
+     * @return $this
+     */
+    public function reset()
     {
-        return $this->dealtCards;
+        // Take all the dealt cards and add them to the undealt stack
+        $this->undealtCards = array_merge($this->undealtCards,$this->dealtCards);
+
+        // Empty the dealt cards array
+        $this->dealtCards = [];
+
+        // Return the shuffled deck
+        return $this->shuffle();
     }
 
+    /**
+     * Gets the count of the remaining cards
+     *
+     * @return int
+     */
     public function undealtCount()
     {
         return count($this->undealtCards);
