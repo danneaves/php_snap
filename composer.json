@@ -1,0 +1,12 @@
+{
+  "name": "danneaves/snap",
+  "description": "Package containing the files for playing a game of snap on CLI",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Dan Neaves",
+      "email": "dan@danielneaves.com"
+    }
+  ]
+}
